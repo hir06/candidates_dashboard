@@ -19,9 +19,8 @@ function App() {
   const router = createBrowserRouter(routes);
   
   return (
-    <div className="App">
-      <header className="App-header">
-      </header>
+    <div className="app">
+      <header className="app-header"> Applications </header>
       <RouterProvider router={router} />
     </div>
   );

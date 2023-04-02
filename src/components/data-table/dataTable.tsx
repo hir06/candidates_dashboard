@@ -3,10 +3,10 @@ import "./dataTable.css";
 
 const DataTable = ({
   candidatesData,
-  sortData,
+  refreshData,
 }: {
   candidatesData: any;
-  sortData: any;
+  refreshData: any;
 }) => {
   
   const computeAge = (birthDateString: string) => {
@@ -14,11 +14,13 @@ const DataTable = ({
     const ageFromEpoch = new Date(ageMilliseconds);
     return Math.abs(ageFromEpoch.getUTCFullYear() - 1970);
   };
-  const sortColumn = (col: string) => {
-    sortData(col);
+
+  const onSort = (col: string) => {
+     refreshData(col);
   };
+ 
   return (
-    <div className={"tableContainer"}>
+    <div className="container">
       <div>
         {
           <div>
@@ -27,8 +29,10 @@ const DataTable = ({
                 return sortableCol.includes(value) ? (
                   <span
                     key={key}
-                    className=""
-                    onClick={() => sortColumn(value)}
+                    className="sortHeader"
+                    onClick={() => {
+                      onSort(value);
+                    }}
                   >
                     {key}
                   </span>

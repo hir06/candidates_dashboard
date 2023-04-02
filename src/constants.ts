@@ -14,3 +14,8 @@ export const sortableCol = [
     'year_of_experience', 
     'application_date'
 ];
+export const status = [
+  'rejected',
+  'approved',
+  'waiting'
+];

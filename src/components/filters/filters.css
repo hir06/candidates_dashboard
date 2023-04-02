@@ -1,0 +1,68 @@
+.filters {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+input[type="text"] {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    color: #333;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+  }
+  
+  input[type="text"]:focus {
+    border-color: #0088cc;
+    outline: none;
+  }
+  select {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    color: #333;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    appearance: none;
+    /* background: url('path/to/custom-arrow.svg') no-repeat right center/10%; */
+  }
+  
+  select:focus {
+    border-color: #0088cc;
+    outline: none;
+  }
+  .select:before{
+    content: "\25be  or  \25bc  ?  ";
+    float:right;
+    color:gray;
+}
+.select:after{
+    content: "";
+    margin:0 0.5em;
+    display:inline-block;
+    border: 7px solid transparent;
+    border-top:8px solid gray;
+    border-bottom:0 none;
+}
+  button {
+    background-color: #0088cc;
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #006699;
+  }
+  
+  button:active {
+    background-color: #004466;
+  }
+  

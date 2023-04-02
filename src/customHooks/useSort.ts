@@ -9,12 +9,13 @@ export const useSort = (items: any = [], config: sortConfig.config | null = null
         direction: string
     ) => {
         const multiplier = direction === 'asc' ? -1 : 1;
+        console.log('Hi I came here')
         return (a - b) * multiplier;
     };
     
-    const compareDates = (a: Date, b: Date, direction: string) => {
+    const compareDates = (a: string, b: string, direction: string) => {
         const multiplier = direction === 'asc' ? -1 : 1;
-        return (a.getTime() - b.getTime()) * multiplier;
+        return (Date.parse(a) - Date.parse(b)) * multiplier;
     };
 
     const compareStrings = (
@@ -28,59 +29,39 @@ export const useSort = (items: any = [], config: sortConfig.config | null = null
     };
     const sortedItems = useMemo(() => {
         let sortableItems = items ? [...items] : [];
+        console.log('from sort params', sortParams)
         if (sortParams !== null) {
-            console.log('inside sort', sortParams?.sortBy)
             switch (sortParams.sortType) {
                 case 'number':
-                    [...sortableItems].sort((a,b) => b[sortParams.sortBy] - a[sortParams.sortBy]);
+                    sortableItems.sort((a,b) => compareNumbers(a[sortParams.sortBy],b[sortParams.sortBy],sortParams.direction));
                     break;
                 case 'string':
-                    [...sortableItems].sort((a,b) => compareStrings(a[sortParams.sortBy],b[sortParams.sortBy],sortParams.direction));
+                    sortableItems.sort((a,b) => compareStrings(a[sortParams.sortBy],b[sortParams.sortBy],sortParams.direction));
                     break;
                 case 'date':
-                    [...sortableItems].sort((a,b) => compareDates(a[sortParams.sortBy],b[sortParams.sortBy],sortParams.direction));
+                    sortableItems.sort((a,b) => compareDates(a[sortParams.sortBy],b[sortParams.sortBy],sortParams.direction));
                     break;
             }
         }
-        console.log('here', sortableItems);
         return sortableItems;
         
     }, [items, sortParams]);
 
-    const getSortedData = (config :sortConfig.config, persist: boolean = false) => {
-       if(!config) return
-            let dir = config.direction || "asc";
-            switch(config.sortBy) {
-                case 'position_applied':
-                    config.sortType = 'string'
-                    break
-                case 'year_of_experience': 
-                    config.sortType = 'number'
-                    break
-                case 'application_date':
-                    config.sortType = 'date'
-                    break
-                default:
-                    config.sortType = 'number'
-            }
-            if(config.direction === 'asc') config.direction = 'desc' 
-            else config.direction = 'asc'
-            // if (persist) {
-            //     setSortConfig(config);
-            // } else {
-            //     if (
-            //         config &&
-            //         config.sortBy &&
-            //         config.direction === "asc"
-            //     ) {
-            //         dir = "desc";
-            //     }
-               
-            //     setSortConfig({ sortBy: config.sortBy, direction: dir });
-            // }
-            setSortParams({...config, direction: dir});
-        
+    const onSort = (config :sortConfig.config, persist: boolean = false) => {
+        let direction = "asc";
+        if (persist) {
+          setSortParams(config);
+        } else {
+          if (
+            sortParams &&
+            sortParams.sortBy === config.sortBy &&
+            sortParams.direction === "asc"
+          ) {
+            direction = "desc";
+          }
+          setSortParams({ ...config, direction });
+        }
     };
 
-    return { items: sortedItems, getSortedData, sortParams, setSortParams };
+    return { items: sortedItems, onSort, sortParams, setSortParams };
 };
