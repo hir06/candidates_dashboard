@@ -29,7 +29,7 @@ const DataTable = ({
                 return sortableCol.includes(value) ? (
                   <span
                     key={key}
-                    className="sortHeader"
+                    className="sortable-col"
                     onClick={() => {
                       onSort(value);
                     }}

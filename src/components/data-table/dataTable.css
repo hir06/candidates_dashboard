@@ -12,9 +12,9 @@
   color: white;
   font-weight: bold;
 }
-/* .grid__data > *:nth-child(4n + 2) {
-  background: aliceblue;
-} */
+.grid__header .sortable-col {
+    cursor: pointer;
+}
 .grid > span {
   padding: 8px 4px;
   border-left: 1px solid black;

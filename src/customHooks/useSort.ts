@@ -29,7 +29,6 @@ export const useSort = (items: any = [], config: sortConfig.config | null = null
     };
     const sortedItems = useMemo(() => {
         let sortableItems = items ? [...items] : [];
-        console.log('from sort params', sortParams)
         if (sortParams !== null) {
             switch (sortParams.sortType) {
                 case 'number':

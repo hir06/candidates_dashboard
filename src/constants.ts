@@ -1,3 +1,5 @@
+import { sortConfig } from "./types/namespaces/sortConfig.types";
+
 export const baseURL = 'https://personio-fe-coding-challenge.vercel.app/api'
 export const headerArray = [
     { key: "Name", value: "name" },
@@ -19,3 +21,8 @@ export const status = [
   'approved',
   'waiting'
 ];
+export const columnToSortType = new Map([
+  ['position_applied', sortConfig.SortType.STRING],
+  ['year_of_experience', sortConfig.SortType.NUMBER],
+  ['application_date', sortConfig.SortType.DATE],
+]);

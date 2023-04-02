@@ -6,6 +6,7 @@ import { candidateBoard } from '../../types/namespaces/candidateList.types';
 import { useSort } from '../../customHooks/useSort';
 import { sortConfig } from '../../types/namespaces/sortConfig.types';
 import { Filters } from '../../components/filters/filters';
+import { columnToSortType } from '../../constants';
 import './dashboard.css';
 import useFilteredData from '../../customHooks/useFilters';
 
@@ -17,11 +18,7 @@ function Dashboard() {
   const { filteredData, filters, setFilters, resetFilters } = useFilteredData({ data: data });
   const { sortParams, items, setSortParams, onSort} = useSort(filteredData);
   const params = new URLSearchParams(window.location.search);
-  const columnToSortType = new Map([
-    ['position_applied', sortConfig.SortType.STRING],
-    ['year_of_experience', sortConfig.SortType.NUMBER],
-    ['application_date', sortConfig.SortType.DATE],
-  ]);
+ 
   useEffect(() => {
     setIsLoading(true);
     getAllCandidatesList()
@@ -96,7 +93,7 @@ function Dashboard() {
 
   const refreshData = async(col: string, dir : string ='asc') => {
     const params: sortConfig.config = { sortBy: col, sortType: columnToSortType.get(col) }
-    updateUrlParams(params)
+    updateUrlParams({sortBy: col, direction: sortParams?.direction})
     onSort(params)
   }
 

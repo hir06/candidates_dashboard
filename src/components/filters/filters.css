@@ -65,4 +65,12 @@ input[type="text"] {
   button:active {
     background-color: #004466;
   }
-  
+  @media only screen and (max-width: 767px) {
+    /* styles for mobile devices */
+    .filters {
+      grid-template-columns: auto;
+    }
+    button {
+      margin-bottom: 1em;
+    }
+  }
