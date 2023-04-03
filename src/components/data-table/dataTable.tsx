@@ -1,24 +1,19 @@
+import React from "react";
 import { headerArray, sortableCol } from "../../constants";
 import "./dataTable.css";
+import { candidateBoard } from "../../types/candidateList.types";
 
-const DataTable = ({
-  candidatesData,
-  refreshData,
-}: {
-  candidatesData: any;
-  refreshData: any;
-}) => {
-  
-  const computeAge = (birthDateString: string) => {
-    const ageMilliseconds = Date.now() - Number(new Date(birthDateString));
-    const ageFromEpoch = new Date(ageMilliseconds);
-    return Math.abs(ageFromEpoch.getUTCFullYear() - 1970);
-  };
 
+type Props = {
+  candidatesData: candidateBoard.candidateData[];
+  updateSortParams: (col: string) => void;
+};
+
+const DataTable: React.FC<Props> = ({ candidatesData, updateSortParams }) => {
   const onSort = (col: string) => {
-     refreshData(col);
+    updateSortParams(col);
   };
- 
+
   return (
     <div className="container">
       <div>
@@ -43,11 +38,11 @@ const DataTable = ({
             </div>
             {candidatesData.length ? (
               <div>
-                {candidatesData.map((item: any) => (
+                {candidatesData.map((item: candidateBoard.candidateData) => (
                   <div className="grid grid__data" key={item.id}>
                     <span>{item.name}</span>
                     <span>{item.email}</span>
-                    <span>{computeAge(item.birth_date)}</span>
+                    <span>{item.age}</span>
                     <span>{item.position_applied}</span>
                     <span>{item.year_of_experience}</span>
                     <span>{item.application_date}</span>

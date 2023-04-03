@@ -2,19 +2,19 @@ import React, { memo, useEffect, useState } from 'react';
 import { getAllCandidatesList, parseCandidatesData } from "../../api/candidateService";
 import Loader from '../../components/loader/loader'
 import DataTable from '../../components/data-table/dataTable';
-import { candidateBoard } from '../../types/namespaces/candidateList.types';
+import { candidateBoard } from '../../types/candidateList.types';
 import { useSort } from '../../customHooks/useSort';
-import { sortConfig } from '../../types/namespaces/sortConfig.types';
+import { sortConfig } from '../../types/sortConfig.types';
 import { Filters } from '../../components/filters/filters';
 import { columnToSortType } from '../../constants';
-import './dashboard.css';
+import './applicationsBoard.css';
 import useFilteredData from '../../customHooks/useFilters';
 
-function Dashboard() {
+function ApplicationsDashboard() {
 
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState<candidateBoard.candidateApiResponse[]>([]);
-  const [displayedData, setDisplayedData] = useState<candidateBoard.candidateApiResponse[]>([])
+  const [data, setData] = useState<candidateBoard.candidateData[]>([]);
+  const [displayedData, setDisplayedData] = useState<candidateBoard.candidateData[]>([])
   const { filteredData, filters, setFilters, resetFilters } = useFilteredData({ data: data });
   const { sortParams, items, setSortParams, onSort} = useSort(filteredData);
   const params = new URLSearchParams(window.location.search);
@@ -44,6 +44,9 @@ function Dashboard() {
     }
   }, [data]);
 
+  useEffect(() => {
+    updateUrlParams()
+  }, [filters, sortParams])
   // onRefresh we take params from url and apply sorting and filtering accordingly just once hence dependency array just contains the API data
   useEffect(() => {
     const columnToSortType = new Map([
@@ -69,13 +72,13 @@ function Dashboard() {
     }
   }, [data]);
 
-  const updateUrlParams = (config: any) => {
+  const updateUrlParams = () => {
     let newParams = {};
-    config.name && (newParams["name"] = config.name);
-    config.status && (newParams["status"] = config.status);
-    config.position && (newParams["position"] = config.position);
+    filters.name && (newParams["name"] = filters.name);
+    filters.status && (newParams["status"] = filters.status);
+    filters.position && (newParams["position"] = filters.position);
     if (sortParams?.sortBy) {
-      newParams = { ...newParams, "sortBy" : config.sortBy, "direction": config.direction};
+      newParams = { ...newParams, "sortBy" : sortParams.sortBy, "direction": sortParams.direction};
     }
     if (Object.keys(newParams).length > 0) {
       const urlparams = new URLSearchParams(newParams);
@@ -88,22 +91,17 @@ function Dashboard() {
   };
 
   const handleError = (e: any) => {
+    // TODO: add this to the logger/ error dashboards like dataDog
     console.log(e)
   };
 
-  const refreshData = async(col: string, dir : string ='asc') => {
+  const applySort = async(col: string, dir : string ='asc') => {
     const params: sortConfig.config = { sortBy: col, sortType: columnToSortType.get(col) }
-    updateUrlParams({sortBy: col, direction: sortParams?.direction})
     onSort(params)
   }
 
-  const inputFilters = async(filterConfig) => {
+  const applyFilters = async(filterConfig) => {
     setFilters(filterConfig)
-    updateUrlParams(filterConfig)
-  }
-  const onSubmit = async() => {
-    setDisplayedData(filteredData);
-    updateUrlParams(filters)
   }
   const clearUrlParams = () => {
     window.history.replaceState({ data }, "", `${window.location.pathname}`);
@@ -111,20 +109,19 @@ function Dashboard() {
   const onReset = async() => {
     resetFilters();
     setSortParams(null)
+    setFilters({})
     clearUrlParams();
     setDisplayedData(data)
   }
 
   return (
     <div className="dashboard">
-     <Filters inputFilters={inputFilters} filters={filters} onReset={onReset} 
-     onSubmit = {onSubmit}
-     isDisabled={data?.length > 0 ? false : true}/>
      {isLoading? <Loader size={50} /> : ''}
-     {!isLoading && displayedData?.length !== 0 && 
-     <DataTable candidatesData={displayedData} refreshData={refreshData} />}
+     {!isLoading && displayedData?.length !== 0 && <Filters updateFilters={applyFilters} filters={filters} onReset={onReset} />}
+     {!isLoading && displayedData?.length !== 0  && 
+     <DataTable candidatesData={displayedData} updateSortParams={applySort} />}
     </div>
   );
 }
 
-export default Dashboard;
+export default ApplicationsDashboard;

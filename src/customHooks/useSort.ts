@@ -1,4 +1,4 @@
-import { sortConfig } from './../types/namespaces/sortConfig.types';
+import { sortConfig } from '../types/sortConfig.types';
 import { useMemo, useState } from "react";
 
 export const useSort = (items: any = [], config: sortConfig.config | null = null) => {
@@ -8,13 +8,12 @@ export const useSort = (items: any = [], config: sortConfig.config | null = null
         b: number,
         direction: string
     ) => {
-        const multiplier = direction === 'asc' ? -1 : 1;
-        console.log('Hi I came here')
+        const multiplier = direction === 'asc' ? 1 : -1;
         return (a - b) * multiplier;
     };
     
     const compareDates = (a: string, b: string, direction: string) => {
-        const multiplier = direction === 'asc' ? -1 : 1;
+        const multiplier = direction === 'asc' ? 1 : -1;
         return (Date.parse(a) - Date.parse(b)) * multiplier;
     };
 
@@ -24,7 +23,7 @@ export const useSort = (items: any = [], config: sortConfig.config | null = null
         direction: string
     ) => {
         const result = a.localeCompare(b);
-        const multiplier = direction === 'asc' ? -1 : 1;
+        const multiplier = direction === 'asc' ? 1 : -1;
         return result * multiplier;
     };
     const sortedItems = useMemo(() => {

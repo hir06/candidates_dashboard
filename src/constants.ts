@@ -1,4 +1,4 @@
-import { sortConfig } from "./types/namespaces/sortConfig.types";
+import { sortConfig } from "./types/sortConfig.types";
 
 export const baseURL = 'https://personio-fe-coding-challenge.vercel.app/api'
 export const headerArray = [

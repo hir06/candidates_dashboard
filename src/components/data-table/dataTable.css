@@ -15,6 +15,16 @@
 .grid__header .sortable-col {
     cursor: pointer;
 }
+.grid__header .sortable-col::after {
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 0px 5px 5px 5px;
+  border-color: transparent transparent #fff transparent;
+  content: "";
+  float: right;
+  margin-top: 5px;
+}
 .grid > span {
   padding: 8px 4px;
   border-left: 1px solid black;

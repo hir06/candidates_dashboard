@@ -1,16 +1,16 @@
 import { useMemo, useState, useCallback } from "react";
-import { candidateBoard } from "../types/namespaces/candidateList.types";
-import { filterConfig } from "../types/namespaces/filterConfig.types";
+import { candidateBoard } from "../types/candidateList.types";
+import { filterConfig } from "../types/filterConfig.types";
 
 interface UseFilteredDataProps {
-  data: candidateBoard.candidateApiResponse[];
+  data: candidateBoard.candidateData[];
   initialFilters?: filterConfig.config;
   // this is custom filterFn for more flexibility and reusability of the hook
-  filterFn?: (data: candidateBoard.candidateApiResponse[], filters: filterConfig.config) => candidateBoard.candidateApiResponse[];
+  filterFn?: (data: candidateBoard.candidateData[], filters: filterConfig.config) => candidateBoard.candidateData[];
 }
 
 interface UseFilteredDataReturn {
-  filteredData: candidateBoard.candidateApiResponse[];
+  filteredData: candidateBoard.candidateData[];
   filters: filterConfig.config;
   setFilters: React.Dispatch<React.SetStateAction<filterConfig.config>>;
   resetFilters: () => void;
@@ -20,18 +20,18 @@ const useFilteredData = ({ data, initialFilters = {}, filterFn }: UseFilteredDat
   const [filters, setFilters] = useState<filterConfig.config>(initialFilters);
 
   const filterCandidates = useCallback(
-    (employee: candidateBoard.candidateApiResponse): boolean => {
+    (candidate: candidateBoard.candidateData): boolean => {
       const { name, position, status } = filters;
 
-      if (name && !employee.name.toLowerCase().includes(name.toLowerCase())) {
+      if (name && !candidate.name.toLowerCase().includes(name.toLowerCase())) {
         return false;
       }
 
-      if (position && !employee.position_applied.toLowerCase().includes(position.toLowerCase())) {
+      if (position && !candidate.position_applied.toLowerCase().includes(position.toLowerCase())) {
         return false;
       }
 
-      if (status && employee.status !== status) {
+      if (status && candidate.status !== status) {
         return false;
       }
 

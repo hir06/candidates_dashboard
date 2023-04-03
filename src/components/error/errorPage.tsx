@@ -5,7 +5,7 @@ import './errorPage.css';
 function ErrorPage() {
   return (
     <div className="error">
-     <h1>error renders</h1>
+     <h1>Sorry, the page you're looking for doesn't exist </h1>
     </div>
   );
 }
