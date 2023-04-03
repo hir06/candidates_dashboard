@@ -26,6 +26,7 @@ export const useSort = (items: any = [], config: sortConfig.config | null = null
         const multiplier = direction === 'asc' ? 1 : -1;
         return result * multiplier;
     };
+    // only recalculate this if sortParams or input is changed
     const sortedItems = useMemo(() => {
         let sortableItems = items ? [...items] : [];
         if (sortParams !== null) {

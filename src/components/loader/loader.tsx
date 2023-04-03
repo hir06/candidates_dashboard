@@ -1,16 +1,13 @@
 import React, { FC } from 'react';
 import './loader.css';
 
-interface Props {
-  size?: number;
-}
+interface Props {}
 
-const Loader: FC<Props> = ({ size = 24 }) => {
+const Loader: FC<Props> = () => {
   return (
-    <div className="loader" style={{ width: size, height: size }}>
-      <div className="loader-inner"></div>
-      <div className="loader-inner"></div>
-    </div>
+    <div className="loader">
+    <div className="loader__spinner" data-testid="loader-spinner"></div>
+  </div>
   );
 };
 

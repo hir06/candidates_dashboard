@@ -116,7 +116,7 @@ function ApplicationsDashboard() {
 
   return (
     <div className="dashboard">
-     {isLoading? <Loader size={50} /> : ''}
+     {isLoading? <Loader /> : ''}
      {!isLoading && displayedData?.length !== 0 && <Filters updateFilters={applyFilters} filters={filters} onReset={onReset} />}
      {!isLoading && displayedData?.length !== 0  && 
      <DataTable candidatesData={displayedData} updateSortParams={applySort} />}
