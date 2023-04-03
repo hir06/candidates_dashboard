@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import ApplicationsDashboard from './applicationsBoard';
+import ApplicationsBoard from './applicationsBoard';
 
 test('renders filters component', () => {
-  render(<ApplicationsDashboard />);
+  render(<ApplicationsBoard />);
   expect(true).toBe(true)
 });

@@ -42,6 +42,7 @@ Due to limitations of time could not include this but would love to
 and act on that
 - BUG fixes: due to the state choices and having sorting and filters living in custom hook it was getting tricky to maintain the direction hence the UI doesn't reflect asc and desc order
 - more type safety 
-- add more test using RTL and also behavioural test on entire application
+- add test using RTL and also behavioural test on entire application
 - can add caching and localStorage as well memoize props from react to avoid more API calls and computations
 - have added some TODOs as well in files to look at it later and to adhere to timelines
+- improvising css to have common reusable styles, mixins and variable to support design system changes

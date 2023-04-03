@@ -10,7 +10,7 @@ import { columnToSortType } from '../../constants';
 import './applicationsBoard.css';
 import useFilteredData from '../../customHooks/useFilters';
 
-function ApplicationsDashboard() {
+const ApplicationsBoard = memo(() => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<candidateBoard.candidateData[]>([]);
@@ -36,25 +36,15 @@ function ApplicationsDashboard() {
 
   useEffect(() => {
     setDisplayedData(items)
-  },[items])
+  },[items, data])
   
-  useEffect(() => {
-    if(data) {
-      setDisplayedData(data);
-    }
-  }, [data]);
-
+  // updating URL params whenever sort or filters change
   useEffect(() => {
     updateUrlParams()
   }, [filters, sortParams])
+
   // onRefresh we take params from url and apply sorting and filtering accordingly just once hence dependency array just contains the API data
   useEffect(() => {
-    const columnToSortType = new Map([
-      ['position_applied', sortConfig.SortType.STRING],
-      ['year_of_experience', sortConfig.SortType.NUMBER],
-      ['application_date', sortConfig.SortType.DATE],
-    ]);
-
     if (data) {
       let sortBy = params.get("sortBy");
       let direction = params.get("direction");
@@ -89,6 +79,9 @@ function ApplicationsDashboard() {
       );
     }
   };
+  const clearUrlParams = () => {
+    window.history.replaceState({ data }, "", `${window.location.pathname}`);
+  };
 
   const handleError = (e: any) => {
     // TODO: add this to the logger/ error dashboards like dataDog
@@ -103,9 +96,7 @@ function ApplicationsDashboard() {
   const applyFilters = async(filterConfig) => {
     setFilters(filterConfig)
   }
-  const clearUrlParams = () => {
-    window.history.replaceState({ data }, "", `${window.location.pathname}`);
-  };
+
   const onReset = async() => {
     resetFilters();
     setSortParams(null)
@@ -117,11 +108,11 @@ function ApplicationsDashboard() {
   return (
     <div className="dashboard">
      {isLoading? <Loader /> : ''}
-     {!isLoading && displayedData?.length !== 0 && <Filters updateFilters={applyFilters} filters={filters} onReset={onReset} />}
+     {!isLoading && <Filters updateFilters={applyFilters} filters={filters} onReset={onReset} />}
      {!isLoading && displayedData?.length !== 0  && 
      <DataTable candidatesData={displayedData} updateSortParams={applySort} />}
     </div>
   );
-}
+})
 
-export default ApplicationsDashboard;
+export default ApplicationsBoard;

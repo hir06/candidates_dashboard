@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { Navigate, RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom';
-import ApplicationsDashboard from './modules/applications-board/applicationsBoard';
+import ApplicationsBoard from './modules/applications-board/applicationsBoard';
 import ErrorPage from './components/error/errorPage';
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
     { path: "/", element: <Navigate to="app" /> },
     {
       path: "app",
-      element: <ApplicationsDashboard /> ,
+      element: <ApplicationsBoard /> ,
       children: []
     },
     { path: "*", element: <ErrorPage /> }
